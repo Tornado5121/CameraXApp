@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/camera_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/switch_to_video_regime"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-50dp"
+        android:text="@string/video"
+        app:layout_constraintBottom_toTopOf="@id/take_photo_button"
+        app:layout_constraintStart_toStartOf="@id/vertical_center_line" />
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/take_photo_button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="-50dp"
+        android:layout_marginBottom="50dp"
+        android:elevation="2dp"
+        android:text="@string/take_photo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vertical_center_line" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_center_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".50" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

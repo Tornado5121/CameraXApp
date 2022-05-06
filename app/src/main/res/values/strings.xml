@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MyCameraApp</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="start_capture">Start Capture</string>
+    <string name="stop_capture">Stop Capture</string>
+    <string name="photo">Switch to photo regime</string>
+    <string name="video">Switch to video regime</string>
+</resources>
