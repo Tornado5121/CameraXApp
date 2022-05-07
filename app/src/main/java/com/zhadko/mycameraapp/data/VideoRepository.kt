@@ -7,21 +7,54 @@ import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.*
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
-import com.zhadko.mycameraapp.CameraHelper
-import kotlinx.coroutines.flow.MutableStateFlow
+import androidx.lifecycle.LifecycleOwner
+import com.zhadko.mycameraapp.helpers.CameraHelper
 import java.text.SimpleDateFormat
 import java.util.*
 
 class VideoRepository(
     private val context: Context
-) {
+): VideoRepo {
     private var isVideoRecording = false
     private var recording: Recording? = null
 
-    fun captureVideo() {
+    override fun startCamera(preview: Preview, lifecycleOwner: LifecycleOwner) {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+        cameraProviderFuture.addListener({
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            val recording = Recorder.Builder()
+                .setQualitySelector(
+                    QualitySelector
+                        .from(Quality.HIGHEST)
+                )
+                .build()
+
+            CameraHelper.videoCapture = VideoCapture.withOutput(recording)
+
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(
+                    lifecycleOwner,
+                    cameraSelector,
+                    preview,
+                    CameraHelper.videoCapture
+                )
+            } catch (exc: Exception) {
+                Log.e(CameraHelper.TAG, "Use case binding failed", exc)
+            }
+        }, ContextCompat.getMainExecutor(context))
+    }
+
+    override fun captureVideo() {
         val videoCapture = CameraHelper.videoCapture ?: return
 
         val curRecording = recording
@@ -85,7 +118,7 @@ class VideoRepository(
             }
     }
 
-    fun isMyVideoRecording(): Boolean {
+    override fun isMyVideoRecording(): Boolean {
         return isVideoRecording
     }
 

@@ -1,7 +1,8 @@
-package com.zhadko.mycameraapp
+package com.zhadko.mycameraapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.zhadko.mycameraapp.R
 import com.zhadko.mycameraapp.databinding.ActivityMainBinding
 import com.zhadko.mycameraapp.ui.photocamera.PhotoCameraFragment
 

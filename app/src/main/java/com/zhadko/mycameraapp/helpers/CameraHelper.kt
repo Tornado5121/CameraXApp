@@ -1,4 +1,4 @@
-package com.zhadko.mycameraapp
+package com.zhadko.mycameraapp.helpers
 
 import android.Manifest
 import android.os.Build

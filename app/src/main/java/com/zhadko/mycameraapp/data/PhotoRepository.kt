@@ -6,18 +6,46 @@ import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
+import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import com.zhadko.mycameraapp.CameraHelper
+import androidx.lifecycle.LifecycleOwner
+import com.zhadko.mycameraapp.helpers.CameraHelper
 import java.text.SimpleDateFormat
 import java.util.*
 
 class PhotoRepository(
     private val context: Context
-) {
+): PhotoRepo {
 
-    fun takePhoto() {
+    override fun startCamera(preview: Preview, lifecycleOwner: LifecycleOwner) {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+        cameraProviderFuture.addListener({
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            CameraHelper.imageCapture = ImageCapture.Builder().build()
+
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(
+                    lifecycleOwner,
+                    cameraSelector,
+                    preview,
+                    CameraHelper.imageCapture
+                )
+            } catch (exc: Exception) {
+                Log.e(CameraHelper.TAG, "Use case binding failed", exc)
+            }
+        }, ContextCompat.getMainExecutor(context))
+    }
+
+
+    override fun takePhoto() {
         val imageCapture = CameraHelper.imageCapture ?: return
 
         val name = SimpleDateFormat(CameraHelper.FILENAME_FORMAT, Locale.US)

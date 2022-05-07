@@ -1,12 +1,15 @@
 package com.zhadko.mycameraapp.ui.videocamera
 
+import android.app.Activity
+import androidx.camera.core.Preview
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
-import com.zhadko.mycameraapp.data.PermissionRepository
-import com.zhadko.mycameraapp.data.VideoRepository
+import com.zhadko.mycameraapp.data.PermissionRepo
+import com.zhadko.mycameraapp.data.VideoRepo
 
 class VideoCameraViewModel(
-    private val permissionRepository: PermissionRepository,
-    private val videoRepository: VideoRepository
+    private val permissionRepository: PermissionRepo,
+    private val videoRepository: VideoRepo
 ) : ViewModel() {
 
     fun isCameraPermissionGranted() = permissionRepository.allPermissionsGranted()
@@ -17,6 +20,14 @@ class VideoCameraViewModel(
 
     fun isMyVideoRecording() : Boolean {
         return videoRepository.isMyVideoRecording()
+    }
+
+    fun askCameraPermission(activity: Activity) {
+        permissionRepository.askCameraPermission(activity)
+    }
+
+    fun startVideoCamera(preview: Preview, lifecycleOwner: LifecycleOwner) {
+        videoRepository.startCamera(preview, lifecycleOwner)
     }
 
 }
