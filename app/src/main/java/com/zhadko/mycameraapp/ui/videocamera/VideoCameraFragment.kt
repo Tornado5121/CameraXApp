@@ -79,7 +79,6 @@ class VideoCameraFragment : Fragment() {
                     "Permissions not granted by the user.",
                     Toast.LENGTH_SHORT
                 ).show()
-//                finish()
             }
         }
     }

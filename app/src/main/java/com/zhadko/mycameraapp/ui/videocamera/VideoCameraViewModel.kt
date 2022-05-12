@@ -1,6 +1,5 @@
 package com.zhadko.mycameraapp.ui.videocamera
 
-import android.app.Activity
 import androidx.camera.core.Preview
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
