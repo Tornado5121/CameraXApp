@@ -1,6 +1,5 @@
 package com.zhadko.mycameraapp.ui.photocamera
 
-import android.app.Activity
 import androidx.camera.core.Preview
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
@@ -25,10 +24,6 @@ class PhotoCameraViewModel(
     }
 
     fun isCameraPermissionGranted() = permissionRepository.allPermissionsGranted()
-
-    fun askCameraPermission(activity: Activity) {
-        permissionRepository.askCameraPermission(activity)
-    }
 
     override fun onCleared() {
         super.onCleared()

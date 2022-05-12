@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.camera.core.Preview
 import androidx.fragment.app.Fragment
-import com.zhadko.mycameraapp.helpers.CameraHelper
 import com.zhadko.mycameraapp.R
 import com.zhadko.mycameraapp.databinding.PhotoCameraFragmentBinding
+import com.zhadko.mycameraapp.helpers.CameraHelper
 import com.zhadko.mycameraapp.ui.videocamera.VideoCameraFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,7 +35,6 @@ class PhotoCameraFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.switchToVideoRegime.setOnClickListener {
             requireActivity().supportFragmentManager
                 .beginTransaction()
@@ -46,7 +45,7 @@ class PhotoCameraFragment : Fragment() {
         if (cameraViewModel.isCameraPermissionGranted()) {
             cameraViewModel.startCamera(preview, viewLifecycleOwner)
         } else {
-            cameraViewModel.askCameraPermission(requireActivity())
+            askCameraPermission()
         }
         binding.takePhotoButton.setOnClickListener {
             cameraViewModel.takePhoto()
@@ -64,13 +63,19 @@ class PhotoCameraFragment : Fragment() {
                 cameraViewModel.startCamera(preview, viewLifecycleOwner)
             } else {
                 Toast.makeText(
-                    context,
+                    requireContext(),
                     "Permissions not granted by the user.",
                     Toast.LENGTH_SHORT
                 ).show()
-//                finish()
             }
         }
+    }
+
+    private fun askCameraPermission() {
+        requestPermissions(
+            CameraHelper.REQUIRED_PERMISSIONS,
+            CameraHelper.REQUEST_CODE_PERMISSIONS
+        )
     }
 
 }

@@ -40,7 +40,7 @@ class VideoCameraFragment : Fragment() {
         if (videoCameraViewModel.isCameraPermissionGranted()) {
             videoCameraViewModel.startVideoCamera(preview, viewLifecycleOwner)
         } else {
-            videoCameraViewModel.askCameraPermission(requireActivity())
+           askCameraPermission()
         }
 
         binding.switchToPhotoRegime.setOnClickListener {
@@ -84,5 +84,11 @@ class VideoCameraFragment : Fragment() {
         }
     }
 
+    private fun askCameraPermission() {
+        requestPermissions(
+            CameraHelper.REQUIRED_PERMISSIONS,
+            CameraHelper.REQUEST_CODE_PERMISSIONS
+        )
+    }
 
 }

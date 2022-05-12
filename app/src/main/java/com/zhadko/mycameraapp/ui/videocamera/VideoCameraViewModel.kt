@@ -22,10 +22,6 @@ class VideoCameraViewModel(
         return videoRepository.isMyVideoRecording()
     }
 
-    fun askCameraPermission(activity: Activity) {
-        permissionRepository.askCameraPermission(activity)
-    }
-
     fun startVideoCamera(preview: Preview, lifecycleOwner: LifecycleOwner) {
         videoRepository.startCamera(preview, lifecycleOwner)
     }
